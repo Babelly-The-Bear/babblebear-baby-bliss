@@ -52,6 +52,35 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// BabbleBear cozy theme colors
+				warm: {
+					50: 'hsl(var(--warm-50))',
+					100: 'hsl(var(--warm-100))',
+					200: 'hsl(var(--warm-200))',
+					300: 'hsl(var(--warm-300))',
+					400: 'hsl(var(--warm-400))',
+					500: 'hsl(var(--warm-500))',
+					600: 'hsl(var(--warm-600))',
+					700: 'hsl(var(--warm-700))',
+					800: 'hsl(var(--warm-800))',
+					900: 'hsl(var(--warm-900))'
+				},
+				peach: {
+					50: 'hsl(var(--peach-50))',
+					100: 'hsl(var(--peach-100))',
+					200: 'hsl(var(--peach-200))',
+					300: 'hsl(var(--peach-300))',
+					400: 'hsl(var(--peach-400))',
+					500: 'hsl(var(--peach-500))'
+				},
+				sage: {
+					50: 'hsl(var(--sage-50))',
+					100: 'hsl(var(--sage-100))',
+					200: 'hsl(var(--sage-200))',
+					300: 'hsl(var(--sage-300))',
+					400: 'hsl(var(--sage-400))',
+					500: 'hsl(var(--sage-500))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -88,7 +117,43 @@ export default {
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'gentle-bounce': 'gentle-bounce 2s ease-in-out infinite',
+				'soft-pulse': 'soft-pulse 2s ease-in-out infinite',
+				'cozy-float': 'cozy-float 3s ease-in-out infinite'
+			},
+			keyframes: {
+				'accordion-down': {
+					from: {
+						height: '0'
+					},
+					to: {
+						height: 'var(--radix-accordion-content-height)'
+					}
+				},
+				'accordion-up': {
+					from: {
+						height: 'var(--radix-accordion-content-height)'
+					},
+					to: {
+						height: '0'
+					}
+				},
+				'gentle-bounce': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-8px)' }
+				},
+				'soft-pulse': {
+					'0%, 100%': { opacity: '1', transform: 'scale(1)' },
+					'50%': { opacity: '0.8', transform: 'scale(1.05)' }
+				},
+				'cozy-float': {
+					'0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+					'50%': { transform: 'translateY(-12px) rotate(2deg)' }
+				}
+			},
+			fontFamily: {
+				'cozy': ['Inter', 'system-ui', 'sans-serif']
 			}
 		}
 	},

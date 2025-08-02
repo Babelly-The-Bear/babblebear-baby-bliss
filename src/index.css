@@ -8,81 +8,125 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* BabbleBear Cozy Forest Nursery Theme */
+    --background: 32 15% 97%;  /* Warm cream */
+    --foreground: 25 25% 20%;  /* Deep warm brown */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 35 20% 96%;  /* Soft vanilla */
+    --card-foreground: 25 25% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 35 20% 96%;
+    --popover-foreground: 25 25% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 25 45% 45%;  /* Rich toffee brown */
+    --primary-foreground: 35 30% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 20 25% 85%;  /* Warm beige */
+    --secondary-foreground: 25 30% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 30 20% 90%;  /* Light caramel */
+    --muted-foreground: 25 20% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 12 65% 80%;  /* Soft peachy pink */
+    --accent-foreground: 25 30% 25%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 65% 65%;
+    --destructive-foreground: 35 30% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 30 15% 88%;  /* Soft warm border */
+    --input: 30 15% 88%;
+    --ring: 25 45% 45%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;  /* Generous rounded corners */
+
+    /* BabbleBear color palette */
+    --warm-50: 35 30% 97%;   /* Lightest cream */
+    --warm-100: 32 25% 92%;  /* Very light warm */
+    --warm-200: 30 25% 85%;  /* Light warm beige */
+    --warm-300: 28 30% 75%;  /* Medium light caramel */
+    --warm-400: 25 35% 65%;  /* Medium caramel */
+    --warm-500: 25 45% 55%;  /* Rich caramel */
+    --warm-600: 25 45% 45%;  /* Deep toffee */
+    --warm-700: 22 50% 35%;  /* Dark brown */
+    --warm-800: 20 55% 25%;  /* Very dark brown */
+    --warm-900: 18 60% 15%;  /* Deepest brown */
+
+    --peach-50: 15 40% 95%;   /* Very light peach */
+    --peach-100: 12 50% 90%;  /* Light peach */
+    --peach-200: 12 60% 85%;  /* Soft peach */
+    --peach-300: 12 65% 80%;  /* Medium peach */
+    --peach-400: 10 70% 75%;  /* Rich peach */
+    --peach-500: 8 75% 70%;   /* Deep peach */
+
+    --sage-50: 120 20% 95%;   /* Very light sage */
+    --sage-100: 115 25% 88%;  /* Light sage */
+    --sage-200: 110 30% 80%;  /* Soft sage */
+    --sage-300: 105 35% 72%;  /* Medium sage */
+    --sage-400: 100 40% 64%;  /* Rich sage */
+    --sage-500: 95 45% 56%;   /* Deep sage */
+
+    /* Gradients */
+    --gradient-warm: linear-gradient(135deg, hsl(var(--warm-400)), hsl(var(--warm-600)));
+    --gradient-cozy: linear-gradient(120deg, hsl(var(--peach-300)), hsl(var(--warm-500)));
+    --gradient-soft: linear-gradient(180deg, hsl(var(--warm-50)), hsl(var(--warm-200)));
+
+    /* Shadows */
+    --shadow-cozy: 0 8px 32px -8px hsl(var(--warm-600) / 0.15);
+    --shadow-soft: 0 4px 16px -4px hsl(var(--warm-500) / 0.1);
+    --shadow-warm: 0 2px 8px -2px hsl(var(--warm-400) / 0.15);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode: Cozy evening nursery */
+    --background: 20 25% 8%;   /* Deep warm dark */
+    --foreground: 35 20% 90%;  /* Warm light text */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 22 20% 12%;
+    --card-foreground: 35 20% 90%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 22 20% 12%;
+    --popover-foreground: 35 20% 90%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 25 40% 70%;  /* Lighter warm brown */
+    --primary-foreground: 20 25% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 25 15% 20%;
+    --secondary-foreground: 35 20% 90%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 25 15% 18%;
+    --muted-foreground: 30 15% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 12 45% 65%;  /* Soft peachy pink */
+    --accent-foreground: 20 25% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 50% 60%;
+    --destructive-foreground: 35 20% 90%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 25 15% 22%;
+    --input: 25 15% 22%;
+    --ring: 25 40% 70%;
+
+    /* Dark mode color adjustments */
+    --warm-50: 20 25% 8%;
+    --warm-100: 22 20% 12%;
+    --warm-200: 25 15% 18%;
+    --warm-300: 25 20% 25%;
+    --warm-400: 25 25% 35%;
+    --warm-500: 25 30% 50%;
+    --warm-600: 25 35% 65%;
+    --warm-700: 25 40% 75%;
+    --warm-800: 30 25% 85%;
+    --warm-900: 35 20% 90%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -100,6 +144,26 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-cozy;
+    background-image: 
+      radial-gradient(circle at 20% 80%, hsl(var(--warm-100) / 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(var(--peach-100) / 0.2) 0%, transparent 50%);
+  }
+
+  .cozy-texture {
+    background-image: 
+      radial-gradient(circle at 1px 1px, hsl(var(--warm-200) / 0.3) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  .felt-texture {
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 1px,
+        hsl(var(--warm-100) / 0.1) 1px,
+        hsl(var(--warm-100) / 0.1) 2px
+      );
   }
 }
