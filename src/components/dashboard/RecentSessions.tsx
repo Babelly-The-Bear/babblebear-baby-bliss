@@ -97,4 +97,4 @@ export default function RecentSessions({ sessions, children, isLoading }) {
       </CardContent>
     </Card>
   );
-} 
+}

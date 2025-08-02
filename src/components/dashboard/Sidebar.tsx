@@ -94,4 +94,4 @@ export default function Sidebar({ childrenCount, sessionsToday, avgScore }: Side
       </div>
     </div>
   );
-} 
+}

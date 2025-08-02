@@ -77,4 +77,4 @@ export default function BabbleScoreCard({ score, sessionsToday, isLoading }) {
       </CardContent>
     </Card>
   );
-} 
+}

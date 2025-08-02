@@ -87,4 +87,4 @@ export default function DailyInsights({ todaysSessions, isLoading }) {
       </CardContent>
     </Card>
   );
-} 
+}
