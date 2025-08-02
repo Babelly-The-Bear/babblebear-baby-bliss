@@ -274,6 +274,5 @@ export default function Record() {
           )}
         </div>
       </div>
-    </div>
   );
 }
