@@ -6,8 +6,6 @@ import { createPageUrl } from "@/lib/utils";
 import { Plus, Mic, TrendingUp, Heart, Calendar, Sun } from "lucide-react";
 import { motion } from "framer-motion";
 
-import Sidebar from "../components/dashboard/Sidebar";
-import WelcomeHeader from "../components/dashboard/WelcomeHeader";
 import BabbleScoreCard from "../components/dashboard/BabbleScoreCard";
 import RecentSessions from "../components/dashboard/RecentSessions";
 import QuickActions from "../components/dashboard/QuickActions";
@@ -49,14 +47,7 @@ export default function Dashboard() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
-      <Sidebar 
-        childrenCount={children.length}
-        sessionsToday={todaysSessions.length}
-        avgScore={averageScore}
-      />
-      
-      <div className="ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-7xl mx-auto space-y-8">
           {/* Welcome Header */}
           <motion.div

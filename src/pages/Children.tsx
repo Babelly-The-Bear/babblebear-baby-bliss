@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Calendar, Edit } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import Sidebar from "../components/dashboard/Sidebar";
+
 
 export default function Children() {
   const [children, setChildren] = useState([]);
@@ -50,14 +50,7 @@ export default function Children() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
-      <Sidebar 
-        childrenCount={children.length}
-        sessionsToday={3}
-        avgScore={87}
-      />
-      
-      <div className="ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>

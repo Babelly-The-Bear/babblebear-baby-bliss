@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Record from "./pages/Record";
 import Children from "./pages/Children";
 import NotFound from "./pages/NotFound";
+import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
 
@@ -19,9 +20,21 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/record" element={<Record />} />
-          <Route path="/children" element={<Children />} />
+          <Route path="/dashboard" element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          } />
+          <Route path="/record" element={
+            <Layout>
+              <Record />
+            </Layout>
+          } />
+          <Route path="/children" element={
+            <Layout>
+              <Children />
+            </Layout>
+          } />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

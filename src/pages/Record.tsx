@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Mic, Square, Play, Pause, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import Sidebar from "../components/dashboard/Sidebar";
+
 
 export default function Record() {
   const [children, setChildren] = useState([]);
@@ -146,14 +146,7 @@ export default function Record() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
-      <Sidebar 
-        childrenCount={children.length}
-        sessionsToday={0}
-        avgScore={87}
-      />
-      
-      <div className="ml-64 p-8">
+    <div className="p-8">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-amber-900 mb-4">
