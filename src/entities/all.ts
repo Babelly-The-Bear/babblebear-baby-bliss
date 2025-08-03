@@ -4,6 +4,8 @@ export interface Child {
   id: string;
   name: string;
   birth_date: string;
+  gender?: string;
+  medical_notes?: string;
   notes?: string;
   created_date: string;
 }
@@ -33,6 +35,8 @@ class ChildEntity {
         id: "1",
         name: "Emma",
         birth_date: "2023-06-14",
+        gender: "girl",
+        medical_notes: "Born at 38 weeks, healthy development",
         notes: "Born at 38 weeks, healthy development",
         created_date: "2023-06-14T00:00:00Z"
       },
@@ -40,6 +44,7 @@ class ChildEntity {
         id: "2",
         name: "Oliver",
         birth_date: "2023-03-21",
+        gender: "boy",
         created_date: "2023-03-21T00:00:00Z"
       }
     ];
@@ -50,6 +55,8 @@ class ChildEntity {
       id: Date.now().toString(),
       name: data.name || "",
       birth_date: data.birth_date || "",
+      gender: data.gender,
+      medical_notes: data.medical_notes,
       notes: data.notes,
       created_date: new Date().toISOString()
     };
@@ -62,6 +69,8 @@ class ChildEntity {
       id,
       name: data.name || "",
       birth_date: data.birth_date || "",
+      gender: data.gender,
+      medical_notes: data.medical_notes,
       notes: data.notes,
       created_date: new Date().toISOString()
     };
