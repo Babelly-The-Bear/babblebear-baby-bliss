@@ -7,6 +7,7 @@ import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Record from "./pages/Record";
 import Children from "./pages/Children";
+import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 
@@ -33,6 +34,11 @@ const App = () => (
           <Route path="/children" element={
             <Layout>
               <Children />
+            </Layout>
+          } />
+          <Route path="/analytics" element={
+            <Layout>
+              <Analytics />
             </Layout>
           } />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

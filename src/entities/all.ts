@@ -80,39 +80,138 @@ class ChildEntity {
 // Mock BabbleSession class
 class BabbleSessionEntity {
   static async list(sortBy: string = "-session_date", limit: number = 10): Promise<BabbleSession[]> {
-    // Mock data
+    // Mock data with more realistic progression
+    const now = new Date();
     return [
+      // Emma's sessions (improving trend)
       {
         id: "1",
         child_id: "1",
         duration_seconds: 180,
-        babble_score: 0,
+        babble_score: 45,
         analysis_results: {},
-        session_date: new Date().toISOString()
+        session_date: new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "2",
-        child_id: "2",
-        duration_seconds: 180,
-        babble_score: 87,
+        child_id: "1",
+        duration_seconds: 195,
+        babble_score: 52,
         analysis_results: {},
-        session_date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+        session_date: new Date(now.getTime() - 12 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "3",
-        child_id: "2",
-        duration_seconds: 150,
-        babble_score: 73,
+        child_id: "1",
+        duration_seconds: 210,
+        babble_score: 58,
         analysis_results: {},
-        session_date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+        session_date: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "4",
-        child_id: "2",
-        duration_seconds: 225,
-        babble_score: 92,
+        child_id: "1",
+        duration_seconds: 185,
+        babble_score: 65,
         analysis_results: {},
-        session_date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+        session_date: new Date(now.getTime() - 8 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "5",
+        child_id: "1",
+        duration_seconds: 200,
+        babble_score: 72,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "6",
+        child_id: "1",
+        duration_seconds: 220,
+        babble_score: 78,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 4 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "7",
+        child_id: "1",
+        duration_seconds: 195,
+        babble_score: 85,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "8",
+        child_id: "1",
+        duration_seconds: 210,
+        babble_score: 89,
+        analysis_results: {},
+        session_date: now.toISOString()
+      },
+      // Oliver's sessions (declining trend with some low scores)
+      {
+        id: "9",
+        child_id: "2",
+        duration_seconds: 180,
+        babble_score: 82,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "10",
+        child_id: "2",
+        duration_seconds: 175,
+        babble_score: 78,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 12 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "11",
+        child_id: "2",
+        duration_seconds: 190,
+        babble_score: 45,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "12",
+        child_id: "2",
+        duration_seconds: 165,
+        babble_score: 38,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 8 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "13",
+        child_id: "2",
+        duration_seconds: 200,
+        babble_score: 67,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "14",
+        child_id: "2",
+        duration_seconds: 185,
+        babble_score: 42,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 4 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "15",
+        child_id: "2",
+        duration_seconds: 195,
+        babble_score: 73,
+        analysis_results: {},
+        session_date: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "16",
+        child_id: "2",
+        duration_seconds: 210,
+        babble_score: 68,
+        analysis_results: {},
+        session_date: now.toISOString()
       }
     ];
   }
