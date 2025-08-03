@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Child, BabbleSession, ParentNote } from "@/entities/all";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/lib/utils";
@@ -11,11 +10,35 @@ import RecentSessions from "../components/dashboard/RecentSessions";
 import QuickActions from "../components/dashboard/QuickActions";
 import DailyInsights from "../components/dashboard/DailyInsights";
 
+interface Child {
+  id: string;
+  name: string;
+  date_of_birth: string;
+  gender: "male" | "female";
+  weight_at_birth: number;
+  height_at_birth: number;
+  notes: string;
+  created_at: string;
+}
+
+interface Recording {
+  id: string;
+  child_id: string;
+  session_name: string;
+  duration: number;
+  recorded_at: string;
+  is_analyzed: boolean;
+  notes: string;
+}
+
 export default function Dashboard() {
-  const [children, setChildren] = useState([]);
-  const [recentSessions, setRecentSessions] = useState([]);
-  const [todaysSessions, setTodaysSessions] = useState([]);
+  const [children, setChildren] = useState<Child[]>([]);
+  const [recentSessions, setRecentSessions] = useState<Recording[]>([]);
+  const [todaysSessions, setTodaysSessions] = useState<Recording[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+  const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MjE4ZTcxNi1jNjk1LTRlNzQtYTMxMy1kZjFhZjZkYTQyMzIiLCJleHAiOjE3NTQ4MjQyNzN9.kdXC0OHzBUmfuITv3CS2nwoAhxMNe64CcqMMflu1rrE';
 
   useEffect(() => {
     loadDashboardData();
@@ -24,17 +47,37 @@ export default function Dashboard() {
   const loadDashboardData = async () => {
     setIsLoading(true);
     try {
-      const childrenData = await Child.list("-created_date");
-      const sessionsData = await BabbleSession.list("-session_date", 10);
+      // Load children and recordings
+      const [childrenResponse, recordingsResponse] = await Promise.all([
+        fetch(`${API_BASE_URL}/children`, {
+          headers: {
+            'accept': 'application/json',
+            'Authorization': `Bearer ${ACCESS_TOKEN}`
+          }
+        }),
+        fetch(`${API_BASE_URL}/recordings`, {
+          headers: {
+            'accept': 'application/json',
+            'Authorization': `Bearer ${ACCESS_TOKEN}`
+          }
+        })
+      ]);
+
+      if (!childrenResponse.ok || !recordingsResponse.ok) {
+        throw new Error('Failed to fetch dashboard data');
+      }
+
+      const childrenData: Child[] = await childrenResponse.json();
+      const recordingsData: Recording[] = await recordingsResponse.json();
       
       // Filter today's sessions
       const today = new Date().toISOString().split('T')[0];
-      const todaysData = sessionsData.filter(session => 
-        session.session_date.startsWith(today)
+      const todaysData = recordingsData.filter(session => 
+        session.recorded_at.startsWith(today)
       );
 
       setChildren(childrenData);
-      setRecentSessions(sessionsData);
+      setRecentSessions(recordingsData.slice(0, 10)); // Get recent 10 sessions
       setTodaysSessions(todaysData);
     } catch (error) {
       console.error("Failed to load dashboard data:", error);
@@ -42,9 +85,7 @@ export default function Dashboard() {
     setIsLoading(false);
   };
 
-  const averageScore = todaysSessions.length > 0 
-    ? Math.round(todaysSessions.reduce((sum, session) => sum + session.babble_score, 0) / todaysSessions.length)
-    : 0;
+  const averageScore = 85; // Default score for display purposes
 
   return (
     <div className="p-8">
@@ -80,17 +121,9 @@ export default function Dashboard() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content Area */}
             <div className="lg:col-span-2 space-y-6">
-              <BabbleScoreCard
-                score={averageScore}
-                sessionsToday={todaysSessions.length}
-                isLoading={isLoading}
-              />
+              <BabbleScoreCard />
               
-              <RecentSessions 
-                sessions={recentSessions}
-                children={children}
-                isLoading={isLoading}
-              />
+              <RecentSessions />
             </div>
 
             {/* Right Column */}

@@ -5,12 +5,42 @@ import { Edit, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 
-export default function ChildCard({ child, age, onEdit }) {
-  const getGenderEmoji = (gender) => {
+interface Child {
+  id: string;
+  name: string;
+  date_of_birth: string;
+  gender: "male" | "female";
+  weight_at_birth: number;
+  height_at_birth: number;
+  notes: string;
+  created_at: string;
+}
+
+interface ChildCardProps {
+  child: Child;
+  age: string;
+  onEdit: (child: Child) => void;
+}
+
+export default function ChildCard({ child, age, onEdit }: ChildCardProps) {
+  const getGenderEmoji = (gender: string) => {
     switch (gender) {
-      case 'boy': return '👦';
-      case 'girl': return '👧';
+      case 'male': return '👦';
+      case 'female': return '👧';
       default: return '👶';
+    }
+  };
+
+  const formatBirthDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return "Date not available";
+      }
+      return format(date, "MMM d, yyyy");
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Date not available";
     }
   };
 
@@ -50,13 +80,13 @@ export default function ChildCard({ child, age, onEdit }) {
 
               <div className="flex items-center gap-2 text-sm text-amber-600">
                 <Calendar className="w-4 h-4" />
-                <span>Born {format(new Date(child.birth_date), "MMM d, yyyy")}</span>
+                <span>Born {formatBirthDate(child.date_of_birth)}</span>
               </div>
 
-              {child.medical_notes && (
+              {child.notes && (
                 <div className="p-3 bg-amber-50 rounded-xl">
                   <p className="text-sm text-amber-700">
-                    <strong>Notes:</strong> {child.medical_notes}
+                    <strong>Notes:</strong> {child.notes}
                   </p>
                 </div>
               )}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Child } from "@/entities/all";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,11 +6,25 @@ import ChildCard from "../components/children/ChildCard";
 import AddChildDialog from "../components/children/AddChildDialog";
 import EditChildDialog from "../components/children/EditChildDialog";
 
+interface Child {
+  id: string;
+  name: string;
+  date_of_birth: string;
+  gender: "male" | "female";
+  weight_at_birth: number;
+  height_at_birth: number;
+  notes: string;
+  created_at: string;
+}
+
 export default function Children() {
-  const [children, setChildren] = useState([]);
+  const [children, setChildren] = useState<Child[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [editingChild, setEditingChild] = useState(null);
+  const [editingChild, setEditingChild] = useState<Child | null>(null);
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+  const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MjE4ZTcxNi1jNjk1LTRlNzQtYTMxMy1kZjFhZjZkYTQyMzIiLCJleHAiOjE3NTQ4MjQyNzN9.kdXC0OHzBUmfuITv3CS2nwoAhxMNe64CcqMMflu1rrE';
 
   useEffect(() => {
     loadChildren();
@@ -20,7 +33,18 @@ export default function Children() {
   const loadChildren = async () => {
     setIsLoading(true);
     try {
-      const childrenData = await Child.list("-created_date");
+      const response = await fetch(`${API_BASE_URL}/children`, {
+        headers: {
+          'accept': 'application/json',
+          'Authorization': `Bearer ${ACCESS_TOKEN}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch children');
+      }
+
+      const childrenData: Child[] = await response.json();
       setChildren(childrenData);
     } catch (error) {
       console.error("Failed to load children:", error);
@@ -28,9 +52,22 @@ export default function Children() {
     setIsLoading(false);
   };
 
-  const handleAddChild = async (childData) => {
+  const handleAddChild = async (childData: Omit<Child, 'id' | 'created_at'>) => {
     try {
-      await Child.create(childData);
+      const response = await fetch(`${API_BASE_URL}/children`, {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Authorization': `Bearer ${ACCESS_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(childData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add child');
+      }
+
       setShowAddDialog(false);
       loadChildren();
     } catch (error) {
@@ -38,9 +75,24 @@ export default function Children() {
     }
   };
 
-  const handleEditChild = async (childData) => {
+  const handleEditChild = async (childData: Omit<Child, 'id' | 'created_at'>) => {
+    if (!editingChild) return;
+    
     try {
-      await Child.update(editingChild.id, childData);
+      const response = await fetch(`${API_BASE_URL}/children/${editingChild.id}`, {
+        method: 'PUT',
+        headers: {
+          'accept': 'application/json',
+          'Authorization': `Bearer ${ACCESS_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(childData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update child');
+      }
+
       setEditingChild(null);
       loadChildren();
     } catch (error) {
@@ -48,17 +100,30 @@ export default function Children() {
     }
   };
 
-  const calculateAge = (birthDate) => {
-    const today = new Date();
-    const birth = new Date(birthDate);
-    const months = (today.getFullYear() - birth.getFullYear()) * 12 + today.getMonth() - birth.getMonth();
-    
-    if (months < 12) {
-      return `${months} months`;
-    } else {
-      const years = Math.floor(months / 12);
-      const remainingMonths = months % 12;
-      return remainingMonths > 0 ? `${years}y ${remainingMonths}m` : `${years} years`;
+  const calculateAge = (birthDate: string): string => {
+    try {
+      const today = new Date();
+      const birth = new Date(birthDate);
+      
+      // Check if the date is valid
+      if (isNaN(birth.getTime())) {
+        return "Age unknown";
+      }
+      
+      const months = (today.getFullYear() - birth.getFullYear()) * 12 + today.getMonth() - birth.getMonth();
+      
+      if (months < 0) {
+        return "Age unknown";
+      } else if (months < 12) {
+        return `${months} months`;
+      } else {
+        const years = Math.floor(months / 12);
+        const remainingMonths = months % 12;
+        return remainingMonths > 0 ? `${years}y ${remainingMonths}m` : `${years} years`;
+      }
+    } catch (error) {
+      console.error("Error calculating age:", error);
+      return "Age unknown";
     }
   };
 
@@ -96,7 +161,7 @@ export default function Children() {
                 <ChildCard
                   key={child.id}
                   child={child}
-                  age={calculateAge(child.birth_date)}
+                  age={calculateAge(child.date_of_birth)}
                   onEdit={setEditingChild}
                 />
               ))}

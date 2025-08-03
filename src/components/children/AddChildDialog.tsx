@@ -11,21 +11,47 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export default function AddChildDialog({ isOpen, onClose, onSave }) {
+interface Child {
+  id: string;
+  name: string;
+  date_of_birth: string;
+  gender: "male" | "female";
+  weight_at_birth: number;
+  height_at_birth: number;
+  notes: string;
+  created_at: string;
+}
+
+interface AddChildDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (childData: Omit<Child, 'id' | 'created_at'>) => void;
+}
+
+export default function AddChildDialog({ isOpen, onClose, onSave }: AddChildDialogProps) {
   const [formData, setFormData] = useState({
     name: "",
-    birth_date: "",
-    gender: "",
-    medical_notes: ""
+    date_of_birth: "",
+    gender: "male" as "male" | "female",
+    weight_at_birth: 0,
+    height_at_birth: 0,
+    notes: ""
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
-    setFormData({ name: "", birth_date: "", gender: "", medical_notes: "" });
+    setFormData({ 
+      name: "", 
+      date_of_birth: "", 
+      gender: "male", 
+      weight_at_birth: 0, 
+      height_at_birth: 0, 
+      notes: "" 
+    });
   };
 
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -53,12 +79,12 @@ export default function AddChildDialog({ isOpen, onClose, onSave }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="birth_date" className="text-amber-900 font-medium">Birth Date</Label>
+            <Label htmlFor="date_of_birth" className="text-amber-900 font-medium">Birth Date</Label>
             <Input
-              id="birth_date"
+              id="date_of_birth"
               type="date"
-              value={formData.birth_date}
-              onChange={(e) => handleChange("birth_date", e.target.value)}
+              value={formData.date_of_birth}
+              onChange={(e) => handleChange("date_of_birth", e.target.value)}
               required
               className="rounded-xl border-amber-200 focus:border-amber-400"
             />
@@ -79,11 +105,11 @@ export default function AddChildDialog({ isOpen, onClose, onSave }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="medical_notes" className="text-amber-900 font-medium">Medical Notes (Optional)</Label>
+            <Label htmlFor="notes" className="text-amber-900 font-medium">Medical Notes (Optional)</Label>
             <Textarea
-              id="medical_notes"
-              value={formData.medical_notes}
-              onChange={(e) => handleChange("medical_notes", e.target.value)}
+              id="notes"
+              value={formData.notes}
+              onChange={(e) => handleChange("notes", e.target.value)}
               placeholder="Any medical history or concerns..."
               className="rounded-xl border-amber-200 focus:border-amber-400 h-20"
             />

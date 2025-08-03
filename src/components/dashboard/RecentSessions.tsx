@@ -1,23 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { Clock, Link as LinkIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function RecentSessions({ sessions, children, isLoading }) {
-  const getChildName = (childId) => {
+interface Recording {
+  id: string;
+  child_id: string;
+  session_name: string;
+  duration: number;
+  recorded_at: string;
+  is_analyzed: boolean;
+  notes: string;
+}
+
+interface Child {
+  id: string;
+  name: string;
+  date_of_birth: string;
+  gender: "male" | "female";
+  weight_at_birth: number;
+  height_at_birth: number;
+  notes: string;
+  created_at: string;
+}
+
+export default function RecentSessions() {
+  const [sessions, setSessions] = useState<Recording[]>([]);
+  const [children, setChildren] = useState<Child[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+  const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MjE4ZTcxNi1jNjk1LTRlNzQtYTMxMy1kZjFhZjZkYTQyMzIiLCJleHAiOjE3NTQyMTgxODV9.d6wUIzEbj_e0FAkrGS-vgI_zZhhCkiZdMA1gjnEzrnI';
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Fetch recordings and children in parallel
+        const [recordingsResponse, childrenResponse] = await Promise.all([
+          fetch(`${API_BASE_URL}/recordings`, {
+            headers: {
+              'accept': 'application/json',
+              'Authorization': `Bearer ${ACCESS_TOKEN}`
+            }
+          }),
+          fetch(`${API_BASE_URL}/children`, {
+            headers: {
+              'accept': 'application/json',
+              'Authorization': `Bearer ${ACCESS_TOKEN}`
+            }
+          })
+        ]);
+
+        if (!recordingsResponse.ok || !childrenResponse.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const recordingsData = await recordingsResponse.json();
+        const childrenData = await childrenResponse.json();
+
+        setSessions(recordingsData);
+        setChildren(childrenData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        console.error('Error fetching data:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getChildName = (childId: string) => {
     const child = children.find(c => c.id === childId);
     return child ? child.name : "Unknown Child";
   };
 
-  const formatDuration = (seconds) => {
+  const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const getScoreColor = (score) => {
+  const getScoreColor = (score: number) => {
     if (score >= 80) return "text-emerald-600";
     if (score >= 60) return "text-amber-600";
     return "text-red-500";
@@ -33,7 +103,15 @@ export default function RecentSessions({ sessions, children, isLoading }) {
       </CardHeader>
       
       <CardContent>
-        {isLoading ? (
+        {error ? (
+          <div className="text-center py-8">
+            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+              <LinkIcon className="w-8 h-8 text-red-500" />
+            </div>
+            <p className="text-red-600 font-medium">Failed to load sessions</p>
+            <p className="text-red-500 text-sm mt-1">{error}</p>
+          </div>
+        ) : isLoading ? (
           <div className="space-y-4">
             {Array(5).fill(0).map((_, i) => (
               <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-amber-50">
@@ -69,18 +147,25 @@ export default function RecentSessions({ sessions, children, isLoading }) {
                     <div className="flex items-center gap-3 text-sm text-amber-600">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
-                        {formatDuration(session.duration_seconds)}
+                        {formatDuration(session.duration)}
                       </div>
                       <span>•</span>
                       <span>
-                        {format(new Date(session.session_date), "MMM d, h:mm a")}
+                        {format(new Date(session.recorded_at), "MMM d, h:mm a")}
                       </span>
                     </div>
                   </div>
                 </div>
                 
-                <div className={`px-3 py-1 rounded-full font-bold text-sm ${getScoreColor(session.babble_score)}`}>
-                  {session.babble_score}
+                <div className="flex flex-col items-end gap-1">
+                  <div className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-medium">
+                    {session.is_analyzed ? 'Analyzed' : 'Pending'}
+                  </div>
+                  {session.session_name && (
+                    <div className="text-xs text-amber-600 max-w-20 truncate">
+                      {session.session_name}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
